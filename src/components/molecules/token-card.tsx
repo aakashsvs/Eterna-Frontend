@@ -75,7 +75,7 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
             </div>
             <div className="flex items-center gap-1 text-[13px]">
               <span className="text-muted-foreground">MC</span>
-              <span className="font-bold text-primaryBlue">${formatCompact(token.marketCap)}</span>
+              <PriceCell price={token.marketCap} compact className="font-bold text-primaryBlue p-0 bg-transparent" />
             </div>
           </div>
 
@@ -92,7 +92,7 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
             </div>
             <div className="flex items-center gap-1 text-[12px]">
               <span className="text-muted-foreground">V</span>
-              <span className="font-bold text-[#FCFCFC]">${formatCompact(token.volume24h)}</span>
+              <PriceCell price={token.volume24h} compact className="font-bold text-[#FCFCFC] p-0 bg-transparent" />
             </div>
           </div>
 

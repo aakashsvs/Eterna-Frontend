@@ -74,7 +74,7 @@ export const TokenTable = () => {
             <EmptyState />
           ) : (
             <div className="flex flex-col">
-              <AnimatePresence initial={false} mode='popLayout'>
+              <AnimatePresence initial={false} mode="popLayout">
                 {tokens.map((token) => (
                   <TokenCard 
                     key={token.id} 
