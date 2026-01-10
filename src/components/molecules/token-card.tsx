@@ -119,7 +119,7 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
             </div>
             <div>
               <span className="text-muted-foreground">F </span>
-              <span className="text-foreground font-medium">{token.priceUsd.toFixed(3)}</span>
+              <span className="text-foreground font-medium">{formatCurrency(token.priceUsd)}</span>
             </div>
             <div>
               <span className="text-muted-foreground">TX </span>

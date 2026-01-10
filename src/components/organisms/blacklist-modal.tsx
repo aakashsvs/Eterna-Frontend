@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import { Info, Copy } from 'lucide-react';
+import { Info } from 'lucide-react';
 import { Button } from '../atoms/button';
 import { Dialog, DialogContent } from '../atoms/dialog';
 import { cn } from '@/lib/utils';

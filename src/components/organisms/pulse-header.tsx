@@ -1,9 +1,7 @@
 "use client"
 
 import React, { useState, useRef } from 'react';
-import { Settings, Star, BarChart3, Grid3x3, List, Volume2, HelpCircle, Bookmark, Keyboard, Bell, Crosshair, Wallet } from 'lucide-react';
-import { Button } from '../atoms/button';
-import { cn } from '@/lib/utils';
+import { Settings, Star, BarChart3, Grid3x3, List, Volume2, HelpCircle, Bookmark, Keyboard, Crosshair, Wallet } from 'lucide-react';
 import { MetricsPanel } from './metrics-panel';
 import { HelpPopup } from './help-popup';
 import { BlacklistModal } from './blacklist-modal';

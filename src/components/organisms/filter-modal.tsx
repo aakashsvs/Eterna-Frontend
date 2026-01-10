@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import { X, RefreshCw } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 import { Button } from '../atoms/button';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent } from '../atoms/dialog';

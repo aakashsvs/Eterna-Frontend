@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { HelpCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 interface HelpPopupProps {
   isOpen: boolean;
