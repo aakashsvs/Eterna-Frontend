@@ -1,9 +1,13 @@
+"use client"
+
 import React from 'react';
 import { Token } from '@/types/token';
 import { formatDistanceToNow } from 'date-fns';
 import { Copy, Link2, Search, User, Lock, Star, ChefHat, Crosshair, Ghost, Boxes } from 'lucide-react';
 import Image from 'next/image';
 import { PumpIcon } from '../icons/pump-icon';
+import { motion } from 'framer-motion';
+import { PriceCell } from '../atoms/price-cell';
 
 interface TokenCardProps {
   token: Token;
@@ -14,9 +18,6 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
   const formatCompact = (val: number) => 
     new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(val);
 
-  const formatCurrency = (val: number) => 
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumSignificantDigits: 3 }).format(val);
-
   const formatAge = (timestamp: number) => {
     const distance = formatDistanceToNow(timestamp, { addSuffix: false });
     if (distance.includes('second')) return `${distance.split(' ')[0]}s`;
@@ -26,8 +27,14 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
   };
 
   return (
-    <div
-      className="group bg-[#06070B] border-b border-border/50 p-3 hover:bg-[#1e293b]/30 transition-colors cursor-pointer relative"
+    <motion.div
+      layout
+      layoutId={token.id}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="group bg-[#06070B] border-b border-border/50 p-3 hover:bg-[#1e293b]/30 transition-colors cursor-pointer relative overflow-hidden"
       onClick={() => onClick(token)}
     >
       <div className="flex gap-3">
@@ -77,12 +84,12 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
               <User size={10} className="text-primaryBlue" />
             </div>
             <div className="flex items-center gap-3 text-[11px] font-mono">
-              <span className="text-muted-foreground">F <span className="text-[#FCFCFC]">{formatCurrency(token.priceUsd)}</span></span>
+              <PriceCell price={token.priceUsd} className="font-medium text-muted-foreground" />
               <span className="text-muted-foreground">TX <span className="text-[#FCFCFC]">{token.txns24h}</span></span>
             </div>
           </div>
 
-          {/* Row 4: New Badge Elements from Provided HTML */}
+          {/* Row 4: Badges */}
           <div className="flex flex-row w-full h-[24px] gap-[4px] justify-start items-end mt-2 overflow-x-auto hide-scrollbar">
             <div>
               <div className="flex flex-row gap-[4px] flex-shrink-0 h-[24px] px-[5px] justify-start items-center rounded-full bg-backgroundSecondary border-primaryStroke/50 border-[1px]">
@@ -125,7 +132,7 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
 
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 });
 

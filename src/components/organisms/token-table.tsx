@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAppSelector } from '@/store/hooks';
-import { 
+import {
   selectTokensByStatus,
   selectTokenState
 } from '@/store/features/tokens/tokenSlice';
@@ -14,6 +14,7 @@ import { FilterModal } from './filter-modal';
 import { Skeleton } from '../atoms/skeleton';
 import { AlertTriangle } from 'lucide-react';
 import { useSocketConnection } from '@/hooks/use-socket-connection';
+import { AnimatePresence, LayoutGroup } from 'framer-motion';
 
 export const TokenTable = () => {
   const { status } = useAppSelector(selectTokenState);
@@ -62,6 +63,9 @@ export const TokenTable = () => {
           count={tokens.length} 
           preset="1"
           onFilterClick={() => setFilterModalStatus(statusType)}
+          onLightningClick={() => console.log('Lightning clicked')}
+          onWavesClick={() => console.log('Waves clicked')}
+          onPresetChange={(p) => console.log('Preset changed', p)}
         />
         <div className="flex-1 overflow-y-auto pr-2 hide-scrollbar">
           {status === 'idle' ? (
@@ -69,13 +73,17 @@ export const TokenTable = () => {
           ) : tokens.length === 0 ? (
             <EmptyState />
           ) : (
-            tokens.map((token) => (
-              <TokenCard 
-                key={token.id} 
-                token={token} 
-                onClick={handleTokenClick} 
-              />
-            ))
+            <div className="flex flex-col">
+              <AnimatePresence initial={false} mode='popLayout'>
+                {tokens.map((token) => (
+                  <TokenCard 
+                    key={token.id} 
+                    token={token} 
+                    onClick={handleTokenClick} 
+                  />
+                ))}
+              </AnimatePresence>
+            </div>
           )}
         </div>
       </div>
@@ -83,39 +91,42 @@ export const TokenTable = () => {
   };
 
   return (
-    <div className="flex flex-col w-full h-full bg-background">
-      {/* Main Content - 3 Columns */}
-      <div className="flex-1 grid grid-cols-3 gap-0 p-0 overflow-hidden">
-        {/* New Pairs Column */}
-        <div className="flex flex-col h-full bg-card/10 border-r border-border overflow-hidden">
-          {renderColumn(newTokens, 'new')}
+    <LayoutGroup>
+      <div className="flex flex-col w-full h-full bg-background">
+        {/* Main Content - 3 Columns */}
+        <div className="flex-1 grid grid-cols-3 gap-0 p-0 overflow-hidden">
+          {/* New Pairs Column */}
+          <div className="flex flex-col h-full bg-card/10 border-r border-border overflow-hidden">
+            {renderColumn(newTokens, 'new')}
+          </div>
+
+          {/* Final Stretch Column */}
+          <div className="flex flex-col h-full bg-card/10 border-r border-border overflow-hidden">
+            {renderColumn(finalTokens, 'final')}
+          </div>
+
+          {/* Migrated Column */}
+          <div className="flex flex-col h-full bg-card/10 overflow-hidden">
+            {renderColumn(migratedTokens, 'migrated')}
+          </div>
         </div>
 
-        {/* Final Stretch Column */}
-        <div className="flex flex-col h-full bg-card/10 border-r border-border overflow-hidden">
-          {renderColumn(finalTokens, 'final')}
-        </div>
-
-        {/* Migrated Column */}
-        <div className="flex flex-col h-full bg-card/10 overflow-hidden">
-          {renderColumn(migratedTokens, 'migrated')}
-        </div>
-      </div>
-
-      {/* Modals */}
-      <TokenDetailModal 
-        token={selectedToken} 
-        isOpen={!!selectedToken} 
-        onClose={() => setSelectedToken(null)} 
-      />
-      
-      {filterModalStatus && (
-        <FilterModal
-          isOpen={!!filterModalStatus}
-          onClose={() => setFilterModalStatus(null)}
-          status={filterModalStatus}
+        {/* Modals */}
+        <TokenDetailModal 
+          token={selectedToken} 
+          isOpen={!!selectedToken} 
+          onClose={() => setSelectedToken(null)} 
         />
-      )}
-    </div>
+        
+        {filterModalStatus && (
+          <FilterModal
+            isOpen={!!filterModalStatus}
+            onClose={() => setFilterModalStatus(null)}
+            status={filterModalStatus}
+          />
+        )}
+      </div>
+    </LayoutGroup>
   );
 };
+
