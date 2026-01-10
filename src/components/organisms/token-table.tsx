@@ -94,19 +94,19 @@ export const TokenTable = () => {
     <LayoutGroup>
       <div className="flex flex-col w-full h-full bg-background">
         {/* Main Content - 3 Columns */}
-        <div className="flex-1 grid grid-cols-3 gap-0 p-0 overflow-hidden">
+        <div className="flex-1 border-primaryStroke bg-backgroundSecondary border-[1px] flex flex-row w-full justify-start items-start rounded-[8px] sm:rounded-[4px] overflow-hidden">
           {/* New Pairs Column */}
-          <div className="flex flex-col h-full bg-card/10 border-r border-border overflow-hidden">
+          <div className="flex flex-col flex-1 h-full border-r border-primaryStroke/50 overflow-hidden">
             {renderColumn(newTokens, 'new')}
           </div>
 
           {/* Final Stretch Column */}
-          <div className="flex flex-col h-full bg-card/10 border-r border-border overflow-hidden">
+          <div className="flex flex-col flex-1 h-full border-r border-primaryStroke/50 overflow-hidden">
             {renderColumn(finalTokens, 'final')}
           </div>
 
           {/* Migrated Column */}
-          <div className="flex flex-col h-full bg-card/10 overflow-hidden">
+          <div className="flex flex-col flex-1 h-full overflow-hidden">
             {renderColumn(migratedTokens, 'migrated')}
           </div>
         </div>

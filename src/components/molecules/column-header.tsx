@@ -1,7 +1,8 @@
 import React from 'react';
 import { Zap, Waves, Settings2 } from 'lucide-react';
 import { TokenStatus } from '@/types/token';
-
+import { SolIcon } from '../icons/sol-icon';
+import { BnbIcon } from '../icons/bnb-icon';
 interface ColumnHeaderProps {
   status: TokenStatus;
   count?: number;
@@ -28,16 +29,10 @@ export const ColumnHeader: React.FC<ColumnHeaderProps> = ({
   const showBonding = status === 'new';
 
   return (
-    <div className="flex items-center justify-between px-3 py-2 bg-[#06070B] border-b border-border min-h-[48px] border-r border-border last:border-r-0">
+    <div className="flex items-center justify-between px-3 py-2 bg-transparent border-b border-border min-h-[48px] border-r border-border last:border-r-0">
       {/* Left: Title + Badge */}
       <div className="flex items-center gap-3">
-        <span className="text-sm font-bold text-[#FCFCFC]">{labels[status]}</span>
-        
-        {showBonding && (
-          <div className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#3f2008] text-orange-500 border border-orange-900/50">
-            Bonding: 54.78%
-          </div>
-        )}
+        <span className="text-base font-bold text-[#FCFCFC]">{labels[status]}</span>
       </div>
 
       {/* Right: Controls */}
@@ -45,11 +40,15 @@ export const ColumnHeader: React.FC<ColumnHeaderProps> = ({
         {/* Lightning Counter */}
         <button 
           onClick={onLightningClick}
-          className="flex items-center gap-1.5 px-2 py-1 rounded bg-[#1e293b] text-xs font-mono text-blue-400 border border-blue-900/30 hover:bg-[#1e293b]/80 transition-colors"
+          className="flex items-center gap-1.5 px-2 py-1 rounded  text-xs font-mono text-blue-400 border border-blue-900/30 hover:bg-[#1e293b]/80 transition-colors"
         >
           <Zap size={10} className="fill-current" />
           <span>0</span>
-          <span className="text-muted-foreground">≡</span>
+          <span className="text-muted-foreground"> 
+          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
+            <SolIcon width={13} height={13} />
+          </div>
+          </span>
         </button>
 
         {/* Waves Icon */}

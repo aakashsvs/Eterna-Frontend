@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useRef } from 'react';
+import { cn } from '@/lib/utils';
 import { Settings, Star, BarChart3, Grid3x3, List, Volume2, HelpCircle, Bookmark, Keyboard, Crosshair, Wallet, ChevronDown } from 'lucide-react';
 import { MetricsPanel } from './metrics-panel';
 import { HelpPopup } from './help-popup';
@@ -13,6 +14,7 @@ import { SolIcon } from '../icons/sol-icon';
 import { BnbIcon } from '../icons/bnb-icon';
 
 export const PulseHeader = () => {
+  const [selectedChain, setSelectedChain] = useState<'SOL' | 'BNB'>('SOL');
   const [isMetricsPanelOpen, setIsMetricsPanelOpen] = useState(false);
   const [isHelpPopupOpen, setIsHelpPopupOpen] = useState(false);
   const [isBlacklistModalOpen, setIsBlacklistModalOpen] = useState(false);
@@ -24,28 +26,37 @@ export const PulseHeader = () => {
 
   return (
     <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-background min-h-[56px]">
+
       {/* Left Section - Title and Icons */}
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-bold text-textPrimary">Pulse</h1>
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
+          <button 
+            onClick={() => setSelectedChain('SOL')}
+            className={cn(
+              "w-8 h-8 rounded-full flex items-center justify-center border transition-all",
+              selectedChain === 'SOL' 
+                ? "bg-primary/10 border-primary/20 opacity-100" 
+                : "bg-primary/5 border-primary/10 opacity-40 hover:opacity-80"
+            )}
+          >
             <SolIcon width={18} height={18} />
-          </div>
-          <div className="w-8 h-8 rounded-full bg-yellow-500/10 flex items-center justify-center border border-yellow-500/20">
+          </button>
+          <button 
+             onClick={() => setSelectedChain('BNB')}
+             className={cn(
+              "w-8 h-8 rounded-full flex items-center justify-center border transition-all",
+              selectedChain === 'BNB'
+                ? "bg-yellow-500/10 border-yellow-500/20 opacity-100"
+                : "bg-yellow-500/5 border-yellow-500/10 opacity-40 hover:opacity-80"
+             )}
+          >
             <BnbIcon width={18} height={18} />
-          </div>
+          </button>
         </div>
         <div className="h-6 w-px bg-border mx-2" />
         <div className="flex items-center gap-1">
-          <button className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary">
-            <Settings size={18} />
-          </button>
-          <button className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary">
-            <Star size={18} />
-          </button>
-          <button className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary">
-            <BarChart3 size={18} />
-          </button>
+          
         </div>
       </div>
 
@@ -93,7 +104,11 @@ export const PulseHeader = () => {
           <Wallet size={16} className="text-textTertiary" />
           <span className="text-sm font-medium text-textSecondary">1</span>
           <span className="text-textTertiary">≡</span>
-          <SolIcon width={14} height={14} />
+          {selectedChain === 'SOL' ? (
+            <SolIcon width={14} height={14} />
+          ) : (
+            <BnbIcon width={14} height={14} />
+          )}
           <span className="text-sm font-medium text-textPrimary">0</span>
           <ChevronDown size={14} className="text-textTertiary" />
         </button>

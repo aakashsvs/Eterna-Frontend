@@ -26,6 +26,9 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
     return distance;
   };
 
+  const bondingPercentage = React.useMemo(() => Math.floor(Math.random() * 100), [token.id]);
+  const isHighBonding = bondingPercentage > 40;
+
   return (
     <motion.div
       layout
@@ -34,13 +37,30 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="group bg-[#06070B] border-b border-border/50 p-3 hover:bg-[#1e293b]/30 transition-colors cursor-pointer relative overflow-hidden"
+      className="group bg-transparent border-b border-border/50 p-3 hover:bg-[#1e293b]/30 transition-colors cursor-pointer relative overflow-hidden"
       onClick={() => onClick(token)}
     >
       <div className="flex gap-3">
-        {/* Large Image */}
-        <div className="relative w-[72px] h-[72px] rounded-[4px] overflow-hidden bg-muted border border-border/30 flex-shrink-0">
-          <Image src={token.image} alt={token.name} fill className="object-cover" />
+        {/* Large Image Container */}
+        <div className="relative flex-shrink-0">
+          <div className="relative w-[72px] h-[72px] rounded-[4px] overflow-hidden bg-muted border border-border/30">
+            <Image src={token.image} alt={token.name} fill className="object-cover" />
+          </div>
+          
+          {/* Bonding Badge Popup - Repositioned to the Right */}
+          <div className={`absolute left-full top-1/2 -translate-y-1/2 ml-2 opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 pointer-events-none flex items-center`}>
+            {/* Tiny arrow pointing left */}
+            <div className={`w-1.5 h-1.5 rotate-45 border-l border-b -mr-[4px] z-30 ${
+               isHighBonding ? 'bg-[#101114] border-primaryGreen/50' : 'bg-[#101114] border-primaryRed/50'
+            }`} />
+            <div className={`px-2 py-0.5 rounded-full text-[9px] font-bold border shadow-xl backdrop-blur-md whitespace-nowrap ${
+              isHighBonding 
+                ? 'text-primaryGreen border-primaryGreen/50 bg-[#101114]' 
+                : 'text-primaryRed border-primaryRed/50 bg-[#101114]'
+            }`}>
+              Bonding: {bondingPercentage}%
+            </div>
+          </div>
         </div>
 
         {/* Content Column */}
