@@ -4,34 +4,52 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%; /* Black */
-    --foreground: 210 40% 98%; /* Zinc 50 */
-    
-    --card: 240 10% 3.9%; /* Zinc 950 */
-    --card-foreground: 0 0% 98%;
+    /* Axiom.trade Variables */
+    --primary-color: 82 111 255;
+    --primary-hue: 230;
+    --primary-color-hover: 102 131 255;
+    --background-secondary: 16 17 20;
+    --background-tertiary: 24 24 26;
+    --primary-stroke: 34 36 45;
+    --secondary-stroke: 50 53 66;
+    --border-subtle: 31 31 35;
+    --text-primary: 252 252 252;
+    --text-secondary: 200 201 209;
+    --text-tertiary: 119 122 140;
+    --translation-text-color: 242 195 102;
+    --increase: 47 227 172;
+    --decrease: 236 57 122;
+    --increase-hover: 91 231 189;
+    --decrease-hover: 248 100 154;
+    --chart-up: 11 153 129;
+    --chart-down: 242 53 70;
+    --primary-green: 18 175 128;
+    --primary-yellow: 220 193 60;
+    --primary-orange: 226 124 77;
+    --primary-orange-hover: 238 146 103;
+    --primary-red: 242 84 97;
+    --primary-light-blue: 82 197 255;
+    --background: #06070B;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-
-    --secondary: 240 3.7% 15.9%; /* Zinc 800 */
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-
+    /* Tailwind Mappings */
+    --foreground: 252 252 252; /* text-primary */
+    --card: 16 17 20; /* background-secondary */
+    --card-foreground: 200 201 209; /* text-secondary */
+    --popover: 24 24 26; /* background-tertiary */
+    --popover-foreground: 252 252 252;
+    --primary: 82 111 255; /* primary-color */
+    --primary-foreground: 255 255 255;
+    --secondary: 34 36 45; /* primary-stroke */
+    --secondary-foreground: 200 201 209;
+    --muted: 34 36 45; /* primary-stroke */
+    --muted-foreground: 119 122 140; /* text-tertiary */
+    --accent: 50 53 66; /* secondary-stroke */
+    --accent-foreground: 252 252 252;
+    --destructive: 236 57 122; /* decrease */
+    --destructive-foreground: 255 255 255;
+    --border: 34 36 45; /* primary-stroke */
+    --input: 34 36 45; /* primary-stroke */
+    --ring: 82 111 255; /* primary-color */
     --radius: 0.5rem;
   }
 }
@@ -41,8 +59,25 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-[color:var(--background)] text-[color:rgb(var(--text-primary))] antialiased;
   }
+}
+
+@layer utilities {
+  .text-textPrimary { color: rgb(var(--text-primary)); }
+  .text-textSecondary { color: rgb(var(--text-secondary)); }
+  .text-textTertiary { color: rgb(var(--text-tertiary)); }
+  .bg-primaryBlue { background-color: rgb(var(--primary-color)); }
+  .text-primaryBlue { color: rgb(var(--primary-color)); }
+  .bg-primaryStroke { background-color: rgb(var(--primary-stroke)); }
+  .bg-secondaryStroke { background-color: rgb(var(--secondary-stroke)); }
+  .border-primaryStroke { border-color: rgb(var(--primary-stroke)); }
+  .border-secondaryStroke { border-color: rgb(var(--secondary-stroke)); }
+  .text-increase { color: rgb(var(--increase)); }
+  .text-decrease { color: rgb(var(--decrease)); }
+  .bg-increase { background-color: rgb(var(--increase)); }
+  .bg-decrease { background-color: rgb(var(--decrease)); }
+  .bg-backgroundTertiary { background-color: rgb(var(--background-tertiary)); }
 }
 
 @layer utilities {
