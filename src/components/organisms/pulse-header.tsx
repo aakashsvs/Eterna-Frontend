@@ -10,6 +10,7 @@ import { AlertsModal } from './alerts-modal';
 import { SnipeSettingsModal } from './snipe-settings-modal';
 import { WalletDropdown } from './wallet-dropdown';
 import { SolIcon } from '../icons/sol-icon';
+import { BnbIcon } from '../icons/bnb-icon';
 
 export const PulseHeader = () => {
   const [isMetricsPanelOpen, setIsMetricsPanelOpen] = useState(false);
@@ -27,11 +28,11 @@ export const PulseHeader = () => {
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-bold text-textPrimary">Pulse</h1>
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-primaryBlue border border-border">
-            <span className="text-xs">≡</span>
+          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
+            <SolIcon width={18} height={18} />
           </div>
-          <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-yellow-500 border border-border">
-            <span className="text-xs font-bold">B</span>
+          <div className="w-8 h-8 rounded-full bg-yellow-500/10 flex items-center justify-center border border-yellow-500/20">
+            <BnbIcon width={18} height={18} />
           </div>
         </div>
         <div className="h-6 w-px bg-border mx-2" />
