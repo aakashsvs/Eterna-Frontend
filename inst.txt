@@ -1,0 +1,238 @@
+You are operating as a **senior-plus frontend engineer under hiring-bar conditions**.
+This is a **pass/fail assignment**. Partial completion is **failure**.
+You must **deliver working software**.
+
+## ABSOLUTE OBJECTIVE
+
+Reproduce **Axiom Trade’s Token Discovery Table** with **pixel-level accuracy**.
+
+Reference (open and inspect visually):
+https://axiom.trade/pulse](https://axiom.trade/pulse
+
+If a human can visually distinguish your UI from the reference without zooming, **you failed**.
+
+---
+
+## HARD FAILURE CONDITIONS (READ CAREFULLY)
+
+You **fail immediately** if ANY of the following occur:
+
+* Missing **any** column or interaction present on the reference site
+* Using placeholders instead of real mock logic
+* Skipping WebSocket simulation
+* Returning pseudocode or “example” components
+* Producing an app that cannot be deployed
+* Lighthouse score < 90 on **both** mobile and desktop
+* Layout shifts during live price updates
+* Components not reusable outside this table
+* README missing screenshots or instructions
+* Any deliverable missing
+
+There is **no partial credit**.
+
+---
+
+## FUNCTIONAL REQUIREMENTS (NON-NEGOTIABLE)
+
+### Token Table
+
+* Implement **all three sections**:
+
+  * New Pairs
+  * Final Stretch
+  * Migrated
+* Each section must behave exactly like the reference:
+
+  * Sorting
+  * Sticky headers
+  * Hover behavior
+  * Click behavior
+* Data must feel **real**, not toy data.
+
+### Interaction Matrix (ALL REQUIRED)
+
+You must explicitly implement **every** interaction type below:
+
+| Interaction | Where                |
+| ----------- | -------------------- |
+| Tooltip     | Metadata, timestamps |
+| Popover     | Quick token actions  |
+| Modal       | Full token details   |
+| Hover       | Row + cell           |
+| Click       | Navigation or modal  |
+| Sorting     | Multi-column         |
+| Focus       | Keyboard accessible  |
+
+If any interaction is missing, you fail.
+
+---
+
+## REAL-TIME SYSTEM (NO CHEATING)
+
+* Implement a **mock WebSocket server**
+* Emit price updates at variable intervals
+* Animate price changes:
+
+  * Green on up
+  * Red on down
+  * Smooth transitions
+* **NO layout shift**
+* Updates must not trigger full table re-renders
+
+If performance degrades under updates, you fail.
+
+---
+
+## LOADING & FAILURE STATES (ALL REQUIRED)
+
+You must implement **all** of the following visibly:
+
+* Skeleton loaders
+* Shimmer effects
+* Progressive loading
+* Error boundaries
+* Retry UI
+* Empty states
+
+Each must be triggerable and testable.
+
+---
+
+## TECH STACK (STRICT — DO NOT SUBSTITUTE)
+
+* Next.js 14 **App Router only**
+* TypeScript with `"strict": true`
+* Tailwind CSS
+* Redux Toolkit (non-trivial usage)
+* React Query (data fetching + caching)
+* Radix UI / Headless UI / shadcn/ui only
+
+No shortcuts. No alternatives.
+
+---
+
+## ARCHITECTURE ENFORCEMENT
+
+You must follow **Atomic Design** strictly:
+
+* atoms
+* molecules
+* organisms
+* templates
+* pages
+
+Additional requirements:
+
+* Custom hooks for data + sockets
+* Shared utilities
+* Memoized selectors
+* Zero duplicate logic
+* Components must be reusable in isolation
+
+Any monolithic component = fail.
+
+---
+
+## PERFORMANCE BUDGET (ENFORCED)
+
+* Interaction latency < **100ms**
+* CLS ≈ 0
+* No unnecessary re-renders
+* Virtualization if dataset size requires it
+* Lighthouse score ≥ 90 (mobile + desktop)
+
+If you don’t measure it, it doesn’t count.
+
+---
+
+## UI ACCURACY (NO EXCUSES)
+
+* Fonts, spacing, colors must match reference
+* Hover states must match
+* Row height must match
+* Padding must match
+* Responsive down to **320px**
+
+Deviation > 2px = fail.
+
+---
+
+## DELIVERABLES (ALL REQUIRED — NO EXCEPTIONS)
+
+### 1. GitHub Repository
+
+* Clean, logical commits
+* Meaningful commit messages
+* No dead code
+* README with:
+
+  * Setup instructions
+  * Architecture explanation
+  * Performance decisions
+  * Screenshots (desktop + mobile)
+
+### 2. Vercel Deployment
+
+* Production build
+* No runtime errors
+* Optimized assets
+
+### 3. Public YouTube Video (1–2 min)
+
+* Show:
+
+  * Real-time updates
+  * Sorting
+  * Modals/popovers
+  * Loading states
+  * Responsive behavior
+
+If any link is missing, the assignment is rejected.
+
+---
+
+## EXECUTION ORDER (MANDATORY)
+
+You must execute in this order:
+
+1. Scaffold Next.js 14 project
+2. Configure strict TypeScript + Tailwind
+3. Implement architecture skeleton
+4. Build reusable UI primitives
+5. Implement mock backend + WebSocket
+6. Build table with full interactions
+7. Add loading & error states
+8. Optimize performance
+9. Deploy to Vercel
+10. Produce README + demo script
+
+Skipping steps is not allowed.
+
+---
+
+## OUTPUT REQUIREMENTS
+
+You must output:
+
+* Exact folder structure
+* Full source code for critical files
+* Commands to run locally
+* Deployment instructions
+
+Do NOT:
+
+* Explain concepts
+* Suggest alternatives
+* Ask clarifying questions
+
+Assume **senior engineers will review your code line-by-line**.
+
+---
+
+## FINAL INSTRUCTION
+
+This is not an exercise.
+This is a **hiring-bar simulation**.
+
+**Start building now.**
+
