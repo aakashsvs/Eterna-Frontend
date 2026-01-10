@@ -47,6 +47,20 @@ const config: Config = {
           up: "#22c55e", // Green 500
           down: "#ef4444", // Red 500
           muted: "#71717a", // Zinc 500
+        },
+        // Purple for accents (matching screenshot)
+        purple: {
+          400: "#a78bfa",
+          500: "#8b5cf6",
+          600: "#7c3aed",
+        },
+        green: {
+          400: "#4ade80",
+          500: "#22c55e",
+        },
+        red: {
+          400: "#f87171",
+          500: "#ef4444",
         }
       },
       borderRadius: {

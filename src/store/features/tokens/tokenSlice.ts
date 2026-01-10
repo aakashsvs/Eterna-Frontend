@@ -78,6 +78,11 @@ export const selectActiveTokens = (state: RootState) => {
   });
 };
 
+export const selectTokensByStatus = (status: TokenStatus) => (state: RootState) => {
+  const allTokens = selectAllTokens(state);
+  return allTokens.filter(t => t.status === status).sort((a, b) => b.createdAt - a.createdAt);
+};
+
 export const selectTokenState = (state: RootState) => state.tokens;
 
 export default tokenSlice.reducer;

@@ -1,28 +1,30 @@
 "use client"
 
 import React, { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppSelector } from '@/store/hooks';
 import { 
-  selectActiveTokens, 
-  selectTokenState, 
-  setSection, 
-  setSorting 
+  selectTokensByStatus,
+  selectTokenState
 } from '@/store/features/tokens/tokenSlice';
-import { Token } from '@/types/token';
-import { TokenRow } from '../molecules/token-row';
+import { Token, TokenStatus } from '@/types/token';
+import { TokenCard } from '../molecules/token-card';
 import { TokenDetailModal } from '../molecules/token-detail-modal';
-import { FilterTabs } from '../molecules/filter-tabs';
-import { TableHeader } from '../molecules/table-header';
+import { ColumnHeader } from '../molecules/column-header';
+import { FilterModal } from './filter-modal';
 import { Skeleton } from '../atoms/skeleton';
 import { AlertTriangle } from 'lucide-react';
 import { useSocketConnection } from '@/hooks/use-socket-connection';
 
 export const TokenTable = () => {
-  const dispatch = useAppDispatch();
-  const tokens = useAppSelector(selectActiveTokens);
-  const { status, activeSection, sortBy, sortDirection } = useAppSelector(selectTokenState);
+  const { status } = useAppSelector(selectTokenState);
+  
+  // Get tokens for each column
+  const newTokens = useAppSelector(selectTokensByStatus('new'));
+  const finalTokens = useAppSelector(selectTokensByStatus('final'));
+  const migratedTokens = useAppSelector(selectTokensByStatus('migrated'));
   
   const [selectedToken, setSelectedToken] = useState<Token | null>(null);
+  const [filterModalStatus, setFilterModalStatus] = useState<TokenStatus | null>(null);
 
   // Custom hook handles socket connection and cleanup
   useSocketConnection();
@@ -33,9 +35,9 @@ export const TokenTable = () => {
 
   const LoadingSkeleton = () => (
     <div className="space-y-2 p-4">
-      {Array.from({ length: 10 }).map((_, i) => (
-        <div key={i} className="flex gap-4">
-          <Skeleton className="h-12 w-12 rounded-full" />
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div key={i} className="flex gap-4 p-3 border border-border rounded-lg">
+          <Skeleton className="h-12 w-12 rounded-lg" />
           <div className="space-y-2 flex-1">
             <Skeleton className="h-4 w-1/3" />
             <Skeleton className="h-4 w-1/2" />
@@ -48,45 +50,56 @@ export const TokenTable = () => {
   const EmptyState = () => (
     <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
       <AlertTriangle className="h-12 w-12 mb-4 opacity-20" />
-      <p>No tokens found in this section.</p>
+      <p className="text-sm">No tokens found in this section.</p>
     </div>
   );
 
-  return (
-    <div className="flex flex-col w-full h-full bg-card rounded-xl border border-border overflow-hidden shadow-2xl">
-      {/* Controls */}
-      <div className="p-4 border-b border-border flex items-center justify-between bg-card/50 backdrop-blur-sm sticky top-0 z-20">
-        <h2 className="text-xl font-bold tracking-tight">Token Discovery</h2>
-        <FilterTabs 
-          activeTab={activeSection} 
-          onTabChange={(tab) => dispatch(setSection(tab))} 
+  const renderColumn = (tokens: Token[], statusType: TokenStatus) => {
+    return (
+      <div className="flex flex-col h-full overflow-hidden">
+        <ColumnHeader 
+          status={statusType} 
+          count={tokens.length} 
+          preset="1"
+          onFilterClick={() => setFilterModalStatus(statusType)}
         />
-      </div>
-
-      {/* Table Content */}
-      <div className="flex-1 overflow-auto min-h-[600px] relative">
-        <TableHeader 
-          sortBy={sortBy} 
-          sortDirection={sortDirection} 
-          onSort={(key) => dispatch(setSorting({ 
-            key, 
-            direction: sortBy === key && sortDirection === 'desc' ? 'asc' : 'desc' 
-          }))} 
-        />
-        
-        {status === 'idle' || (status === 'connected' && tokens.length === 0) ? (
-          status === 'idle' ? <LoadingSkeleton /> : <EmptyState />
-        ) : (
-          <div className="divide-y divide-border/50">
-            {tokens.map((token) => (
-              <TokenRow 
+        <div className="flex-1 overflow-y-auto pr-2 hide-scrollbar">
+          {status === 'idle' ? (
+            <LoadingSkeleton />
+          ) : tokens.length === 0 ? (
+            <EmptyState />
+          ) : (
+            tokens.map((token) => (
+              <TokenCard 
                 key={token.id} 
                 token={token} 
                 onClick={handleTokenClick} 
               />
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex flex-col w-full h-full bg-background">
+      {/* Main Content - 3 Columns */}
+      <div className="flex-1 grid grid-cols-3 gap-4 p-4 overflow-hidden">
+        {/* New Pairs Column */}
+        <div className="flex flex-col h-full bg-card/30 rounded-lg border border-border overflow-hidden">
+          {renderColumn(newTokens, 'new')}
+        </div>
+
+        {/* Final Stretch Column */}
+        <div className="flex flex-col h-full bg-card/30 rounded-lg border border-border overflow-hidden">
+          {renderColumn(finalTokens, 'final')}
+        </div>
+
+        {/* Migrated Column */}
+        <div className="flex flex-col h-full bg-card/30 rounded-lg border border-border overflow-hidden">
+          {renderColumn(migratedTokens, 'migrated')}
+        </div>
       </div>
 
       {/* Modals */}
@@ -95,6 +108,14 @@ export const TokenTable = () => {
         isOpen={!!selectedToken} 
         onClose={() => setSelectedToken(null)} 
       />
+      
+      {filterModalStatus && (
+        <FilterModal
+          isOpen={!!filterModalStatus}
+          onClose={() => setFilterModalStatus(null)}
+          status={filterModalStatus}
+        />
+      )}
     </div>
   );
 };
