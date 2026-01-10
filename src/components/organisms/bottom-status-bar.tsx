@@ -6,6 +6,12 @@ import {
   LayoutTemplate, Bell, Palette, MessageSquare, FileText, 
   Database, Link, ChevronDown, LucideIcon
 } from 'lucide-react';
+import { BtcIcon } from '../icons/btc-icon';
+import { EthIcon } from '../icons/eth-icon';
+import { SolIcon } from '../icons/sol-icon';
+import { PumpIcon } from '../icons/pump-icon';
+import { BonkIcon } from '../icons/bonk-icon';
+import { BagsIcon } from '../icons/bags-icon';
 import { cn } from '@/lib/utils';
 import { CustomizeThemeModal } from './customize-theme-modal';
 
@@ -22,12 +28,10 @@ export const BottomStatusBar = () => {
     </button>
   );
 
-  const CryptoPrice = ({ symbol, price, color }: { symbol: string, price: string, color: string }) => (
-    <div className="flex items-center gap-1.5 px-2">
-      <div className={cn("w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold text-background", color)}>
-        {symbol[0]}
-      </div>
-      <span className={cn("text-xs font-medium", color.replace('bg-', 'text-'))}>{price}</span>
+  const CryptoPrice = ({ Icon, price, color }: { symbol: string, Icon: LucideIcon | React.FC<React.SVGProps<SVGSVGElement>>, price: string, color: string }) => (
+    <div className="flex items-center gap-1.5 px-2 cursor-pointer hover:brightness-110 transition-all">
+      <Icon width={16} height={16} />
+      <span className={cn("text-xs font-medium", color)}>{price}</span>
     </div>
   );
 
@@ -70,15 +74,19 @@ export const BottomStatusBar = () => {
       {/* Center Group - Market Data */}
       <div className="flex items-center h-full gap-4">
         {/* Token Pill */}
-        <div className="px-3 py-1 bg-green-900/10 border border-green-500/20 rounded-full flex items-center gap-2">
-           <span className="text-xs">💊 🦊 💰</span>
+        <div className="px-3 py-1 bg-gradient-to-r from-[#53D38E]/30 via-[#E78C19]/30 to-[#3E6200]/30 border border-white/5 rounded-full flex items-center gap-2 relative overflow-hidden">
+           <div className="flex items-center gap-1 z-10">
+             <PumpIcon width={11} height={11} />
+             <BonkIcon width={11} height={11} />
+             <BagsIcon width={11} height={11} />
+           </div>
         </div>
 
         <div className="w-px h-4 bg-border" />
 
-        <CryptoPrice symbol="Bitcoin" price="$90.5K" color="bg-orange-500" />
-        <CryptoPrice symbol="Ethereum" price="$3088" color="bg-blue-500" />
-        <CryptoPrice symbol="Solana" price="$135.97" color="bg-purple-500" />
+        <CryptoPrice symbol="BTC" Icon={BtcIcon} price="$90.5K" color="text-[#F7931A]" />
+        <CryptoPrice symbol="ETH" Icon={EthIcon} price="$3088" color="text-[#497493]" />
+        <CryptoPrice symbol="SOL" Icon={SolIcon} price="$135.97" color="text-[#14F195]" />
 
         <div className="flex items-center gap-4 text-xs text-muted-foreground ml-2">
            <div className="flex items-center gap-1">
@@ -141,4 +149,3 @@ export const BottomStatusBar = () => {
     </div>
   );
 };
-
