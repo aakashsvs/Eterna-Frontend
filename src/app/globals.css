@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    /* Axiom.trade Variables */
+    /* Axiom.trade Variables (RGB values for Tailwind opacity support) */
     --primary-color: 82 111 255;
     --primary-hue: 230;
     --primary-color-hover: 102 131 255;
@@ -29,27 +29,27 @@
     --primary-orange-hover: 238 146 103;
     --primary-red: 242 84 97;
     --primary-light-blue: 82 197 255;
-    --background: #06070B;
+    --background: 6 7 11; /* #06070B */
 
     /* Tailwind Mappings */
-    --foreground: 252 252 252; /* text-primary */
-    --card: 16 17 20; /* background-secondary */
-    --card-foreground: 200 201 209; /* text-secondary */
-    --popover: 24 24 26; /* background-tertiary */
-    --popover-foreground: 252 252 252;
-    --primary: 82 111 255; /* primary-color */
+    --foreground: var(--text-primary);
+    --card: var(--background-secondary);
+    --card-foreground: var(--text-secondary);
+    --popover: var(--background-tertiary);
+    --popover-foreground: var(--text-primary);
+    --primary: var(--primary-color);
     --primary-foreground: 255 255 255;
-    --secondary: 34 36 45; /* primary-stroke */
-    --secondary-foreground: 200 201 209;
-    --muted: 34 36 45; /* primary-stroke */
-    --muted-foreground: 119 122 140; /* text-tertiary */
-    --accent: 50 53 66; /* secondary-stroke */
-    --accent-foreground: 252 252 252;
-    --destructive: 236 57 122; /* decrease */
+    --secondary: var(--primary-stroke);
+    --secondary-foreground: var(--text-secondary);
+    --muted: var(--primary-stroke);
+    --muted-foreground: var(--text-tertiary);
+    --accent: var(--secondary-stroke);
+    --accent-foreground: var(--text-primary);
+    --destructive: var(--decrease);
     --destructive-foreground: 255 255 255;
-    --border: 34 36 45; /* primary-stroke */
-    --input: 34 36 45; /* primary-stroke */
-    --ring: 82 111 255; /* primary-color */
+    --border: var(--primary-stroke);
+    --input: var(--primary-stroke);
+    --ring: var(--primary-color);
     --radius: 0.5rem;
   }
 }
@@ -59,7 +59,9 @@
     @apply border-border;
   }
   body {
-    @apply bg-[color:var(--background)] text-[color:rgb(var(--text-primary))] antialiased;
+    @apply bg-background text-foreground antialiased;
+    background-color: rgb(var(--background));
+    color: rgb(var(--text-primary));
   }
 }
 
