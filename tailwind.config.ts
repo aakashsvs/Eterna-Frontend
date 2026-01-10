@@ -8,60 +8,53 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-ibm-plex-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-geist-mono)", "monospace"],
+      },
       colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        background: "rgb(var(--background))",
+        foreground: "rgb(var(--foreground))",
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "rgb(var(--card))",
+          foreground: "rgb(var(--card-foreground))",
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: "rgb(var(--popover))",
+          foreground: "rgb(var(--popover-foreground))",
         },
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "rgb(var(--primary))",
+          foreground: "rgb(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "rgb(var(--secondary))",
+          foreground: "rgb(var(--secondary-foreground))",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "rgb(var(--muted))",
+          foreground: "rgb(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "rgb(var(--accent))",
+          foreground: "rgb(var(--accent-foreground))",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "rgb(var(--destructive))",
+          foreground: "rgb(var(--destructive-foreground))",
         },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        // Specific semantic colors for trading
-        trade: {
-          up: "#22c55e", // Green 500
-          down: "#ef4444", // Red 500
-          muted: "#71717a", // Zinc 500
-        },
-        // Purple for accents (matching screenshot)
-        purple: {
-          400: "#a78bfa",
-          500: "#8b5cf6",
-          600: "#7c3aed",
-        },
-        green: {
-          400: "#4ade80",
-          500: "#22c55e",
-        },
-        red: {
-          400: "#f87171",
-          500: "#ef4444",
-        }
+        border: "rgb(var(--border))",
+        input: "rgb(var(--input))",
+        ring: "rgb(var(--ring))",
+        // Semantic aliases matching Axiom naming
+        increase: "rgb(var(--increase))",
+        decrease: "rgb(var(--decrease))",
+        primaryGreen: "rgb(var(--primary-green))",
+        primaryRed: "rgb(var(--primary-red))",
+        primaryBlue: "rgb(var(--primary-color))",
+        textPrimary: "rgb(var(--text-primary))",
+        textSecondary: "rgb(var(--text-secondary))",
+        textTertiary: "rgb(var(--text-tertiary))",
       },
       borderRadius: {
         lg: "var(--radius)",

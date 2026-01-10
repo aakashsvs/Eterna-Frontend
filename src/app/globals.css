@@ -59,9 +59,9 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground antialiased;
     background-color: rgb(var(--background));
     color: rgb(var(--text-primary));
+    @apply antialiased;
   }
 }
 
@@ -79,25 +79,10 @@
   .text-decrease { color: rgb(var(--decrease)); }
   .bg-increase { background-color: rgb(var(--increase)); }
   .bg-decrease { background-color: rgb(var(--decrease)); }
+  .text-primaryGreen { color: rgb(var(--primary-green)); }
+  .text-primaryRed { color: rgb(var(--primary-red)); }
   .bg-backgroundTertiary { background-color: rgb(var(--background-tertiary)); }
-}
-
-@layer utilities {
-  .text-trade-up {
-    @apply text-green-400;
-  }
-  
-  .text-trade-down {
-    @apply text-red-400;
-  }
-  
-  .bg-trade-up {
-    @apply bg-green-500;
-  }
-  
-  .bg-trade-down {
-    @apply bg-red-500;
-  }
+  .bg-backgroundSecondary { background-color: rgb(var(--background-secondary)); }
 
   /* Hide scrollbar but keep scrollability */
   .hide-scrollbar {

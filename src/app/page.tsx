@@ -5,7 +5,7 @@ import { PulseHeader } from "@/components/organisms/pulse-header";
 
 export default function Home() {
   return (
-    <main className="flex flex-col h-screen w-screen bg-background overflow-hidden text-textPrimary">
+    <main className="flex flex-col h-screen w-screen bg-background overflow-hidden">
       {/* Top Navigation Bar */}
       <TopNavbar />
       
@@ -13,7 +13,7 @@ export default function Home() {
       <PulseHeader />
       
       {/* Main Content Area */}
-      <div className="flex-1 overflow-hidden relative">
+      <div className="flex-1 overflow-hidden">
         <TokenTable />
       </div>
       
