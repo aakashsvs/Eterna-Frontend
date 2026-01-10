@@ -1,7 +1,7 @@
 import React from 'react';
 import { Token } from '@/types/token';
 import { formatDistanceToNow } from 'date-fns';
-import { Copy } from 'lucide-react';
+import { Copy, Link2, Search, User, Lock, Leaf } from 'lucide-react';
 import Image from 'next/image';
 import { PumpIcon } from '../icons/pump-icon';
 
@@ -19,71 +19,94 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
     if (distance.includes('second')) return `${distance.split(' ')[0]}s`;
     if (distance.includes('minute')) return `${distance.split(' ')[0]}m`;
     if (distance.includes('hour')) return `${distance.split(' ')[0]}h`;
-    if (distance.includes('day')) return `${distance.split(' ')[0]}d`;
     return distance;
   };
 
-  const isKoth = token.marketCap > 30000; // Mock KOTH threshold
+  // Mock percentage badges (0%, 24%, etc.)
+  const badges = [
+    { label: '25%', color: 'text-red-500', icon: 'User' },
+    { label: 'DS', color: 'text-blue-400', icon: 'Shield' }, // Dev Sold?
+    { label: '0%', color: 'text-green-500', icon: 'Lock' },
+    { label: '6%', color: 'text-green-500', icon: 'Eye' },
+    { label: '8%', color: 'text-green-500', icon: 'Globe' },
+  ];
 
   return (
     <div
-      className="group bg-card/40 border border-border/50 rounded-[4px] p-2 mb-2 hover:bg-card/80 hover:border-primary/20 transition-all cursor-pointer relative overflow-hidden"
+      className="group bg-[#06070B] border-b border-border/50 p-3 hover:bg-[#1e293b]/30 transition-colors cursor-pointer relative"
       onClick={() => onClick(token)}
     >
-      <div className="flex flex-row gap-3 items-start">
-        {/* Token Image */}
-        <div className="relative w-10 h-10 rounded-[4px] overflow-hidden flex-shrink-0 bg-muted">
-          <Image src={token.image} alt={token.name} fill className="object-cover" sizes="40px" />
+      <div className="flex gap-3">
+        {/* Large Image */}
+        <div className="relative w-[72px] h-[72px] rounded-[4px] overflow-hidden bg-muted border border-border/30 flex-shrink-0">
+          <Image src={token.image} alt={token.name} fill className="object-cover" />
         </div>
 
-        {/* Content */}
-        <div className="flex-1 min-w-0 flex flex-col gap-1">
-          {/* Header Row */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 min-w-0">
-              {isKoth && (
-                <span className="text-[10px] font-bold bg-[#1e293b] text-primary px-1 rounded-[2px] border border-primary/20">
-                  KOTH
-                </span>
-              )}
-              <span className="font-bold text-sm text-foreground truncate">{token.symbol}</span>
-              <PumpIcon className="w-3 h-3 text-muted-foreground" />
+        {/* Content Column */}
+        <div className="flex-1 min-w-0 flex flex-col justify-between">
+          
+          {/* Row 1: Ticker | Name | MC */}
+          <div className="flex items-start justify-between leading-none">
+            <div className="flex items-center gap-2 overflow-hidden">
+              <span className="text-[16px] font-bold text-[#FCFCFC] truncate">{token.symbol}</span>
+              <span className="text-[13px] font-medium text-muted-foreground truncate">{token.name}</span>
+              <Copy size={12} className="text-muted-foreground hover:text-foreground cursor-pointer" />
             </div>
-            <span className="text-xs font-medium text-[#18b580]">{formatAge(token.createdAt)}</span>
+            <div className="flex items-center gap-1 text-[13px]">
+              <span className="text-muted-foreground">MC</span>
+              <span className="font-bold text-primaryBlue">${formatCompact(token.marketCap)}</span>
+            </div>
           </div>
 
-          {/* Sub Header / Name */}
-          <div className="flex items-center justify-between">
-             <span className="text-xs text-muted-foreground truncate max-w-[120px]" title={token.name}>
-               {token.name}
-             </span>
-             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button className="p-0.5 hover:text-primary transition-colors text-muted-foreground">
-                  <Copy size={12} />
-                </button>
-             </div>
+          {/* Row 2: Time | Icons | Volume */}
+          <div className="flex items-center justify-between mt-1">
+            <div className="flex items-center gap-3">
+              <span className="text-[13px] font-bold text-[#18F195]">{formatAge(token.createdAt)}</span>
+              <div className="flex items-center gap-1.5 text-muted-foreground">
+                <Leaf size={12} className="text-[#18F195]" />
+                <Link2 size={12} />
+                <Search size={12} />
+                <User size={12} />
+                <Lock size={12} />
+              </div>
+            </div>
+            <div className="flex items-center gap-1 text-[12px]">
+              <span className="text-muted-foreground">V</span>
+              <span className="font-bold text-[#FCFCFC]">${formatCompact(token.volume24h)}</span>
+            </div>
           </div>
 
-          {/* Metrics Row */}
-          <div className="flex items-center gap-3 mt-1 text-[11px] font-medium">
-             <div className="flex items-center gap-1 text-muted-foreground">
-               <span>MC:</span>
-               <span className="text-foreground">${formatCompact(token.marketCap)}</span>
-             </div>
-             <div className="flex items-center gap-1 text-muted-foreground">
-               <span>Vol:</span>
-               <span className="text-foreground">${formatCompact(token.volume24h)}</span>
-             </div>
+          {/* Row 3: Creator | Fees/Txns */}
+          <div className="flex items-center justify-between mt-1">
+            <div className="flex items-center gap-1 text-[12px]">
+              <span className="text-muted-foreground">by</span>
+              <span className="text-primaryBlue hover:underline cursor-pointer">@unknown</span>
+              <User size={10} className="text-primaryBlue" />
+            </div>
+            <div className="flex items-center gap-3 text-[11px] font-mono">
+              <span className="text-muted-foreground">F <span className="text-[#FCFCFC]">0.0<sub className="bottom-0">2</sub>3</span></span>
+              <span className="text-muted-foreground">TX <span className="text-[#FCFCFC]">{token.txns24h}</span></span>
+            </div>
           </div>
+
+          {/* Row 4: Badges */}
+          <div className="flex items-center gap-2 mt-2">
+            {badges.map((badge, idx) => (
+              <div key={idx} className="flex items-center gap-1 bg-[#1e293b]/50 px-1.5 py-0.5 rounded-[4px] border border-border/30">
+                {badge.label === 'DS' ? (
+                  <PumpIcon className="w-3 h-3 text-blue-400" />
+                ) : (
+                  <div className="w-1.5 h-1.5 rounded-full" />
+                )}
+                <span className="text-[10px] font-bold">{badge.label}</span>
+              </div>
+            ))}
+            <div className="ml-auto">
+               <PumpIcon className="w-4 h-4 text-muted-foreground opacity-50" />
+            </div>
+          </div>
+
         </div>
-      </div>
-
-      {/* Progress Bar (Visual Flair) */}
-      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-muted/20">
-        <div 
-          className="h-full bg-gradient-to-r from-primary/50 to-primary" 
-          style={{ width: `${Math.min(100, (token.marketCap / 50000) * 100)}%` }}
-        />
       </div>
     </div>
   );
