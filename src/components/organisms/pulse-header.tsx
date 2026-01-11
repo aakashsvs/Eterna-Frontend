@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import { Settings, Star, BarChart3, Grid3x3, List, Volume2, HelpCircle, Bookmark, Keyboard, Crosshair, Wallet, ChevronDown } from 'lucide-react';
+import { Grid3x3, List, Volume2, HelpCircle, Bookmark, Keyboard, Crosshair, Wallet, ChevronDown } from 'lucide-react';
 import { MetricsPanel } from './metrics-panel';
 import { HelpPopup } from './help-popup';
 import { BlacklistModal } from './blacklist-modal';

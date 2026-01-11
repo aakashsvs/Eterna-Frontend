@@ -23,7 +23,7 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
     return distance;
   };
 
-  const bondingPercentage = React.useMemo(() => Math.floor(Math.random() * 100), [token.id]);
+  const bondingPercentage = React.useMemo(() => Math.floor(Math.random() * 100), [token.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const isHighBonding = bondingPercentage > 40;
 
   return (

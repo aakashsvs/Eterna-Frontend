@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
 import { useAppDispatch } from '@/store/hooks';
 import { tokensReceived, priceUpdatesReceived } from '@/store/features/tokens/tokenSlice';
 import { useMockWebSocket } from './use-mock-websocket';
-import { Token, PriceUpdate } from '@/services/websocket';
+import { PriceUpdate } from '@/services/websocket';
+import { Token } from '@/types/token';
 
 /**
  * Hook to establish WebSocket connection and handle data updates

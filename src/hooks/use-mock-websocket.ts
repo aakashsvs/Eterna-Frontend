@@ -28,7 +28,7 @@ export function useMockWebSocket(
 
     // Subscribe to full data if callback provided
     let unsubscribeFull: (() => void) | undefined;
-    if (onFullData) {
+    if (fullDataRef.current) {
       unsubscribeFull = socketService.onMessage((tokens) => {
         if (fullDataRef.current) {
           fullDataRef.current(tokens);
