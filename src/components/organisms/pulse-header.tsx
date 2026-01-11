@@ -42,7 +42,6 @@ export const PulseHeader = () => {
               console.log('Dispatching SOL');
               dispatch(setSelectedChain('SOL'));
             }}
-            aria-label="Select Solana Chain"
             className={cn(
               "w-8 h-8 rounded-full flex items-center justify-center border transition-all cursor-pointer relative z-50",
               selectedChain === 'SOL'
@@ -57,7 +56,6 @@ export const PulseHeader = () => {
               console.log('Dispatching BNB');
               dispatch(setSelectedChain('BNB'));
             }}
-            aria-label="Select BNB Chain"
             className={cn(
               "w-8 h-8 rounded-full flex items-center justify-center border transition-all cursor-pointer relative z-50",
               selectedChain === 'BNB'
@@ -81,7 +79,6 @@ export const PulseHeader = () => {
             <button
               onClick={() => setIsHelpPopupOpen(!isHelpPopupOpen)}
               className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary"
-              aria-label="Help"
             >
               <HelpCircle size={20} />
             </button>
@@ -96,7 +93,6 @@ export const PulseHeader = () => {
             <button
               onClick={() => setIsMetricsPanelOpen(!isMetricsPanelOpen)}
               className="flex items-center gap-2 px-3 py-1.5 bg-muted border border-border rounded-full hover:bg-secondaryStroke transition-colors"
-              aria-label="Display Settings"
             >
               <List size={16} className="text-textPrimary" />
               <span className="text-sm font-bold text-textPrimary">Display</span>
@@ -111,7 +107,7 @@ export const PulseHeader = () => {
         <div className="flex items-center gap-1">
           <Tooltip>
             <TooltipTrigger asChild>
-              <button onClick={() => setIsBlacklistModalOpen(true)} className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary" aria-label="Blacklist">
+              <button onClick={() => setIsBlacklistModalOpen(true)} className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary">
                 <Bookmark size={18} />
               </button>
             </TooltipTrigger>
@@ -122,7 +118,7 @@ export const PulseHeader = () => {
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <button className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary" aria-label="Grid View">
+              <button className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary">
                 <Grid3x3 size={18} />
               </button>
             </TooltipTrigger>
@@ -133,7 +129,7 @@ export const PulseHeader = () => {
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <button onClick={() => setIsHotkeysModalOpen(true)} className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary" aria-label="Hotkeys">
+              <button onClick={() => setIsHotkeysModalOpen(true)} className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary">
                 <Keyboard size={18} />
               </button>
             </TooltipTrigger>
@@ -144,7 +140,7 @@ export const PulseHeader = () => {
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <button onClick={() => setIsAlertsModalOpen(true)} className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary" aria-label="Alerts">
+              <button onClick={() => setIsAlertsModalOpen(true)} className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary">
                 <Volume2 size={18} />
               </button>
             </TooltipTrigger>
@@ -155,7 +151,7 @@ export const PulseHeader = () => {
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <button onClick={() => setIsSnipeSettingsModalOpen(true)} className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary" aria-label="Snipe Settings">
+              <button onClick={() => setIsSnipeSettingsModalOpen(true)} className="p-2 hover:bg-muted/50 rounded transition-colors text-textTertiary hover:text-textPrimary">
                 <Crosshair size={18} />
               </button>
             </TooltipTrigger>
@@ -171,7 +167,6 @@ export const PulseHeader = () => {
               ref={walletButtonRef}
               onClick={() => setIsWalletDropdownOpen(!isWalletDropdownOpen)}
               className="flex items-center gap-2 px-3 py-1.5 bg-muted border border-border rounded-full hover:bg-secondaryStroke transition-colors"
-              aria-label="Wallet"
             >
               <Wallet size={16} className="text-textTertiary" />
               <span className="text-sm font-medium text-textSecondary">1</span>

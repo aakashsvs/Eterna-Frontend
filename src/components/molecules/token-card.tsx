@@ -32,22 +32,14 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="group bg-transparent border-b border-border/50 p-3 hover:bg-[#1e293b]/30 transition-colors cursor-pointer relative overflow-hidden focus:outline-none focus:bg-[#1e293b]/30"
+      className="group bg-transparent border-b border-border/50 p-3 hover:bg-[#1e293b]/30 transition-colors cursor-pointer relative overflow-hidden"
       onClick={() => onClick(token)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClick(token);
-        }
-      }}
     >
       <div className="flex gap-3">
         {/* Large Image Container */}
         <div className="relative flex-shrink-0">
           <div className="relative w-[72px] h-[72px] rounded-[4px] overflow-hidden bg-muted border border-border/30">
-            <Image src={token.image} alt={token.name} fill className="object-cover" sizes="72px" />
+            <Image src={token.image} alt={token.name} fill className="object-cover" />
           </div>
 
           {/* Bonding Badge Popup - Repositioned to the Right */}
@@ -72,16 +64,7 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
             <div className="flex items-center gap-2 overflow-hidden">
               <span className="text-[16px] font-bold text-[#FCFCFC] truncate">{token.symbol}</span>
               <span className="text-[13px] font-medium text-muted-foreground truncate">{token.name}</span>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // Copy logic here
-                }}
-                className="text-muted-foreground hover:text-foreground cursor-pointer focus:outline-none focus:text-foreground"
-                aria-label="Copy token address"
-              >
-                <Copy size={12} />
-              </button>
+              <Copy size={12} className="text-muted-foreground hover:text-foreground cursor-pointer" />
             </div>
             <div className="flex items-center gap-1 text-[13px]">
               <span className="text-muted-foreground">MC</span>

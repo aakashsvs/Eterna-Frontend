@@ -42,7 +42,6 @@ export const ColumnHeader: React.FC<ColumnHeaderProps> = ({
         <button
           onClick={onLightningClick}
           className="flex items-center gap-1.5 px-2 py-1 rounded  text-xs font-mono text-blue-400 border border-blue-900/30 hover:bg-[#1e293b]/80 transition-colors"
-          aria-label="Lightning Mode"
         >
           <Zap size={10} className="fill-current" />
           <span>0</span>
@@ -57,7 +56,6 @@ export const ColumnHeader: React.FC<ColumnHeaderProps> = ({
         <button
           onClick={onWavesClick}
           className="flex items-center justify-center w-6 h-6 rounded hover:bg-muted/50 transition-colors"
-          aria-label={`Select ${selectedChain} Chain`}
         >
           {selectedChain === 'SOL' ? (
             <SolIcon width={14} height={14} />
@@ -68,16 +66,15 @@ export const ColumnHeader: React.FC<ColumnHeaderProps> = ({
 
         {/* Presets Toggle */}
         <div className="flex items-center text-[10px] font-bold bg-[#1e293b] rounded border border-border overflow-hidden">
-          <button onClick={() => onPresetChange?.('P1')} className="px-1.5 py-1 text-blue-400 bg-blue-900/20 hover:bg-blue-900/30 transition-colors" aria-label="Preset 1">P1</button>
-          <button onClick={() => onPresetChange?.('P2')} className="px-1.5 py-1 text-muted-foreground hover:bg-muted/50 transition-colors" aria-label="Preset 2">P2</button>
-          <button onClick={() => onPresetChange?.('P3')} className="px-1.5 py-1 text-muted-foreground hover:bg-muted/50 transition-colors" aria-label="Preset 3">P3</button>
+          <button onClick={() => onPresetChange?.('P1')} className="px-1.5 py-1 text-blue-400 bg-blue-900/20 hover:bg-blue-900/30 transition-colors">P1</button>
+          <button onClick={() => onPresetChange?.('P2')} className="px-1.5 py-1 text-muted-foreground hover:bg-muted/50 transition-colors">P2</button>
+          <button onClick={() => onPresetChange?.('P3')} className="px-1.5 py-1 text-muted-foreground hover:bg-muted/50 transition-colors">P3</button>
         </div>
 
         {/* Settings/Filter */}
         <button
           onClick={onFilterClick}
           className="relative p-1.5 hover:bg-muted/50 rounded transition-colors group"
-          aria-label="Filter Settings"
         >
           <Settings2 size={14} className="text-muted-foreground group-hover:text-foreground" />
           <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-blue-500 rounded-full border border-card" />
