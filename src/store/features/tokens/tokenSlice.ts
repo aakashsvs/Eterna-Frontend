@@ -13,6 +13,7 @@ export interface TokenState {
   activeSection: TokenStatus;
   sortBy: SortKey;
   sortDirection: SortDirection;
+  selectedChain: 'SOL' | 'BNB';
 }
 
 const initialState = tokensAdapter.getInitialState<TokenState>({
@@ -20,6 +21,7 @@ const initialState = tokensAdapter.getInitialState<TokenState>({
   activeSection: 'new', // Default view
   sortBy: 'createdAt',
   sortDirection: 'desc',
+  selectedChain: 'SOL',
 });
 
 // Thunk to initialize socket connection
@@ -50,10 +52,10 @@ const tokenSlice = createSlice({
           // Ensure we don't divide by zero and handle price updates
           const oldPrice = existingToken.priceUsd || 0.000001;
           const priceRatio = update.priceUsd / oldPrice;
-          
+
           // Calculate new market cap based on price change
           const newMarketCap = existingToken.marketCap * priceRatio;
-          
+
           tokensAdapter.updateOne(state, {
             id: update.tokenId,
             changes: {
@@ -72,11 +74,14 @@ const tokenSlice = createSlice({
     setSorting(state, action: PayloadAction<{ key: SortKey; direction: SortDirection }>) {
       state.sortBy = action.payload.key;
       state.sortDirection = action.payload.direction;
+    },
+    setSelectedChain(state, action: PayloadAction<'SOL' | 'BNB'>) {
+      state.selectedChain = action.payload;
     }
   },
 });
 
-export const { tokensReceived, priceUpdatesReceived, setSection, setSorting } = tokenSlice.actions;
+export const { tokensReceived, priceUpdatesReceived, setSection, setSorting, setSelectedChain } = tokenSlice.actions;
 
 // Selectors
 export const {
@@ -87,18 +92,18 @@ export const {
 export const selectActiveTokens = (state: RootState) => {
   const allTokens = selectAllTokens(state);
   const { activeSection, sortBy, sortDirection } = state.tokens;
-  
+
   const filtered = allTokens.filter(t => t.status === activeSection);
-  
+
   // Default to marketCap sorting if not explicitly set, or allow dynamic sorting
   return filtered.sort((a, b) => {
     const aValue = a[sortBy] as number;
     const bValue = b[sortBy] as number;
-    
+
     // If we're sorting by createdAt (default), we might want to still consider marketCap for movement
     // but here we follow the set sorting or fallback to marketCap
     if (sortBy === 'createdAt') {
-       return b.marketCap - a.marketCap;
+      return b.marketCap - a.marketCap;
     }
 
     if (sortDirection === 'asc') {

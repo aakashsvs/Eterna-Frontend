@@ -1,12 +1,12 @@
 import { Token, TokenStatus } from "../types/token";
 
 // Constants for simulation
-const MIN_UPDATE_INTERVAL = 500; // 0.5 seconds
-const MAX_UPDATE_INTERVAL = 1200; // 1.2 seconds
+const MIN_UPDATE_INTERVAL = 2500; // 2.5 seconds
+const MAX_UPDATE_INTERVAL = 3500; // 3.5 seconds
 const TOKENS_PER_SECTION = 20;
-const PRICE_CHANGE_MIN = -0.05; // -5% max decrease
-const PRICE_CHANGE_MAX = 0.05;  // +5% max increase
-const UPDATE_PROBABILITY = 0.7; // 70% of tokens update per cycle
+const PRICE_CHANGE_MIN = -0.15; // -15% max decrease (Higher volatility)
+const PRICE_CHANGE_MAX = 0.15;  // +15% max increase
+const UPDATE_PROBABILITY = 0.8; // 80% of tokens update per cycle
 
 // Price update event type
 export interface PriceUpdate {
@@ -26,11 +26,13 @@ const generateRandomToken = (id: string, status: TokenStatus): Token => {
   const now = Date.now();
   const age = Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 7); // up to 7 days
   const basePrice = Math.random() * 100;
-  
+
+  const randomName = Math.random().toString(36).substring(2, 7).toUpperCase();
+
   return {
     id,
-    name: `Token ${id.substring(0, 4).toUpperCase()}`,
-    symbol: id.substring(0, 3).toUpperCase(),
+    name: randomName,
+    symbol: randomName,
     image: `https://avatar.vercel.sh/${id}`, // Deterministic placeholder
     priceUsd: basePrice,
     priceChange24h: (Math.random() * 40) - 20, // -20% to +20%
@@ -68,13 +70,14 @@ export class MockWebSocket {
 
   private initializeData() {
     const statuses: TokenStatus[] = ['new', 'final', 'migrated'];
-    this.tokens = statuses.flatMap(status => 
-      Array.from({ length: TOKENS_PER_SECTION }).map((_, i) => 
+    this.tokens = statuses.flatMap(status =>
+      Array.from({ length: TOKENS_PER_SECTION }).map((_, i) =>
         generateRandomToken(`${status}-${i}-${Date.now()}`, status)
       )
     ).map(token => ({
       ...token,
-      marketCap: Math.random() * 5000000 + 500000, // Significant spread
+      // Tighter spread to encourage reordering: 500k to 600k
+      marketCap: Math.random() * 100000 + 500000,
     }));
   }
 
@@ -85,13 +88,13 @@ export class MockWebSocket {
   public subscribe(callback: PriceUpdateCallback): () => void {
     if (typeof callback !== 'function') {
       console.warn('subscribe: callback must be a function');
-      return () => {}; // Return no-op unsubscribe
+      return () => { }; // Return no-op unsubscribe
     }
 
     this.priceSubscribers.push(callback);
-    
+
     if (!this.isConnected) {
-      this.connect();
+      this.startConnection();
     }
 
     return () => {
@@ -109,11 +112,11 @@ export class MockWebSocket {
   public onMessage(callback: FullDataCallback): () => void {
     if (typeof callback !== 'function') {
       console.warn('onMessage: callback must be a function');
-      return () => {}; // Return no-op unsubscribe
+      return () => { }; // Return no-op unsubscribe
     }
 
     this.fullDataSubscribers.push(callback);
-    
+
     // Emit initial data asynchronously to avoid issues during initialization
     try {
       callback([...this.tokens]);
@@ -122,7 +125,7 @@ export class MockWebSocket {
     }
 
     if (!this.isConnected) {
-      this.connect();
+      this.startConnection();
     }
 
     return () => {
@@ -133,7 +136,7 @@ export class MockWebSocket {
     };
   }
 
-  private connect() {
+  private startConnection() {
     if (this.isConnected) return;
     this.isConnected = true;
     this.startPriceStream();
@@ -155,7 +158,7 @@ export class MockWebSocket {
   private startPriceStream() {
     const scheduleNext = () => {
       const delay = Math.random() * (MAX_UPDATE_INTERVAL - MIN_UPDATE_INTERVAL) + MIN_UPDATE_INTERVAL;
-      
+
       this.intervalId = setTimeout(() => {
         this.updatePrices();
         scheduleNext();
@@ -181,10 +184,10 @@ export class MockWebSocket {
       // Calculate small incremental change (-1.5% to +1.5%)
       const changePercent = (Math.random() * (PRICE_CHANGE_MAX - PRICE_CHANGE_MIN)) + PRICE_CHANGE_MIN;
       const newPrice = Math.max(0.000001, token.priceUsd * (1 + changePercent));
-      
+
       // Calculate incremental change for 24h change (smaller impact)
       const change24hAdjustment = changePercent * 0.1; // Scale down 24h impact
-      
+
       // Increment volume slightly
       const volumeIncrement = Math.random() * 1000;
 

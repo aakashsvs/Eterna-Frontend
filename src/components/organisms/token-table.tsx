@@ -17,13 +17,13 @@ import { useSocketConnection } from '@/hooks/use-socket-connection';
 import { AnimatePresence, LayoutGroup } from 'framer-motion';
 
 export const TokenTable = () => {
-  const { status } = useAppSelector(selectTokenState);
-  
+  const { status, selectedChain } = useAppSelector(selectTokenState);
+
   // Get tokens for each column
   const newTokens = useAppSelector(selectTokensByStatus('new'));
   const finalTokens = useAppSelector(selectTokensByStatus('final'));
   const migratedTokens = useAppSelector(selectTokensByStatus('migrated'));
-  
+
   const [selectedToken, setSelectedToken] = useState<Token | null>(null);
   const [filterModalStatus, setFilterModalStatus] = useState<TokenStatus | null>(null);
 
@@ -58,14 +58,15 @@ export const TokenTable = () => {
   const renderColumn = (tokens: Token[], statusType: TokenStatus) => {
     return (
       <div className="flex flex-col h-full overflow-hidden">
-        <ColumnHeader 
-          status={statusType} 
-          count={tokens.length} 
+        <ColumnHeader
+          status={statusType}
+          count={tokens.length}
           preset="1"
           onFilterClick={() => setFilterModalStatus(statusType)}
           onLightningClick={() => console.log('Lightning clicked')}
           onWavesClick={() => console.log('Waves clicked')}
           onPresetChange={(p) => console.log('Preset changed', p)}
+          selectedChain={selectedChain}
         />
         <div className="flex-1 overflow-y-auto pr-2 hide-scrollbar">
           {status === 'idle' ? (
@@ -76,10 +77,10 @@ export const TokenTable = () => {
             <div className="flex flex-col">
               <AnimatePresence initial={false} mode="popLayout">
                 {tokens.map((token) => (
-                  <TokenCard 
-                    key={token.id} 
-                    token={token} 
-                    onClick={handleTokenClick} 
+                  <TokenCard
+                    key={token.id}
+                    token={token}
+                    onClick={handleTokenClick}
                   />
                 ))}
               </AnimatePresence>
@@ -112,12 +113,12 @@ export const TokenTable = () => {
         </div>
 
         {/* Modals */}
-        <TokenDetailModal 
-          token={selectedToken} 
-          isOpen={!!selectedToken} 
-          onClose={() => setSelectedToken(null)} 
+        <TokenDetailModal
+          token={selectedToken}
+          isOpen={!!selectedToken}
+          onClose={() => setSelectedToken(null)}
         />
-        
+
         {filterModalStatus && (
           <FilterModal
             isOpen={!!filterModalStatus}

@@ -15,9 +15,6 @@ interface TokenCardProps {
 }
 
 export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick }) => {
-  const formatCompact = (val: number) => 
-    new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(val);
-
   const formatAge = (timestamp: number) => {
     const distance = formatDistanceToNow(timestamp, { addSuffix: false });
     if (distance.includes('second')) return `${distance.split(' ')[0]}s`;
@@ -31,33 +28,37 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
 
   return (
     <motion.div
-      layout
-      layoutId={token.id}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="group bg-transparent border-b border-border/50 p-3 hover:bg-[#1e293b]/30 transition-colors cursor-pointer relative overflow-hidden"
+      className="group bg-transparent border-b border-border/50 p-3 hover:bg-[#1e293b]/30 transition-colors cursor-pointer relative overflow-hidden focus:outline-none focus:bg-[#1e293b]/30"
       onClick={() => onClick(token)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick(token);
+        }
+      }}
     >
       <div className="flex gap-3">
         {/* Large Image Container */}
         <div className="relative flex-shrink-0">
           <div className="relative w-[72px] h-[72px] rounded-[4px] overflow-hidden bg-muted border border-border/30">
-            <Image src={token.image} alt={token.name} fill className="object-cover" />
+            <Image src={token.image} alt={token.name} fill className="object-cover" sizes="72px" />
           </div>
-          
+
           {/* Bonding Badge Popup - Repositioned to the Right */}
           <div className={`absolute left-full top-1/2 -translate-y-1/2 ml-2 opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 pointer-events-none flex items-center`}>
             {/* Tiny arrow pointing left */}
-            <div className={`w-1.5 h-1.5 rotate-45 border-l border-b -mr-[4px] z-30 ${
-               isHighBonding ? 'bg-[#101114] border-primaryGreen/50' : 'bg-[#101114] border-primaryRed/50'
-            }`} />
-            <div className={`px-2 py-0.5 rounded-full text-[9px] font-bold border shadow-xl backdrop-blur-md whitespace-nowrap ${
-              isHighBonding 
-                ? 'text-primaryGreen border-primaryGreen/50 bg-[#101114]' 
-                : 'text-primaryRed border-primaryRed/50 bg-[#101114]'
-            }`}>
+            <div className={`w-1.5 h-1.5 rotate-45 border-l border-b -mr-[4px] z-30 ${isHighBonding ? 'bg-[#101114] border-primaryGreen/50' : 'bg-[#101114] border-primaryRed/50'
+              }`} />
+            <div className={`px-2 py-0.5 rounded-full text-[9px] font-bold border shadow-xl backdrop-blur-md whitespace-nowrap ${isHighBonding
+              ? 'text-primaryGreen border-primaryGreen/50 bg-[#101114]'
+              : 'text-primaryRed border-primaryRed/50 bg-[#101114]'
+              }`}>
               Bonding: {bondingPercentage}%
             </div>
           </div>
@@ -65,13 +66,22 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
 
         {/* Content Column */}
         <div className="flex-1 min-w-0 flex flex-col justify-between">
-          
+
           {/* Row 1: Ticker | Name | MC */}
           <div className="flex items-start justify-between leading-none">
             <div className="flex items-center gap-2 overflow-hidden">
               <span className="text-[16px] font-bold text-[#FCFCFC] truncate">{token.symbol}</span>
               <span className="text-[13px] font-medium text-muted-foreground truncate">{token.name}</span>
-              <Copy size={12} className="text-muted-foreground hover:text-foreground cursor-pointer" />
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // Copy logic here
+                }}
+                className="text-muted-foreground hover:text-foreground cursor-pointer focus:outline-none focus:text-foreground"
+                aria-label="Copy token address"
+              >
+                <Copy size={12} />
+              </button>
             </div>
             <div className="flex items-center gap-1 text-[13px]">
               <span className="text-muted-foreground">MC</span>
@@ -146,7 +156,7 @@ export const TokenCard: React.FC<TokenCardProps> = React.memo(({ token, onClick 
               </div>
             </span>
             <div className="ml-auto flex-shrink-0">
-               <PumpIcon className="w-4 h-4 text-muted-foreground opacity-50" />
+              <PumpIcon className="w-4 h-4 text-muted-foreground opacity-50" />
             </div>
           </div>
 

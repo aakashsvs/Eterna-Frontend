@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider as ReduxProvider } from 'react-redux'
 import { makeStore, AppStore } from '../store/store'
 import { useRef } from 'react'
+import { TooltipProvider } from '@/components/atoms/tooltip'
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClientRef = useRef<QueryClient>()
@@ -19,7 +20,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ReduxProvider store={storeRef.current}>
       <QueryClientProvider client={queryClientRef.current}>
-        {children}
+        <TooltipProvider>
+          {children}
+        </TooltipProvider>
       </QueryClientProvider>
     </ReduxProvider>
   )
